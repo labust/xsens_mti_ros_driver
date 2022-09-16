@@ -121,12 +121,18 @@ Notes:
 
             Change $GROUP into your desired group (e.g. adm, plugdev, or usb).
 
-
-    - The device is inaccessible for a while after plugging it in -
-
+    - The device is inaccessible for a while after plugging it in. -
         When having problems with the device being busy the first 20 seconds after
         plugin, purge the modemmanager application.
+
+    - Can't get data IMU data in Manager nor in the ROS driver. -
+        Ros driver response with [xsens_mti_node]: No MTi device found.
+        Make sure you run the manager with root (sudo ./mtmanager)
+        Switch user to root before running ros driver (su command)
 
 Acknowledgement:
     Thank you to Steven Gies and his engineering team at Xsens Technologies for testing this driver against their complete MTi IMU product portfolio and reviewing the driver source.
     
+
+
+
