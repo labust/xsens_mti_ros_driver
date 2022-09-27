@@ -335,6 +335,9 @@ void XdaInterface::declareCommonParameters()
 	int pub_queue_size = 5;
 	declare_parameter("publisher_queue_size", pub_queue_size);
 
+	declare_parameter("use_high_rate_acceleration", false);
+	declare_parameter("use_high_rate_angular_velocity", false);
+
 	bool should_publish = true;
 	declare_parameter("pub_imu", should_publish);
 	declare_parameter("pub_quaternion", should_publish);
