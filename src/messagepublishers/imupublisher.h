@@ -129,7 +129,7 @@ struct ImuPublisher : public PacketCallback, PublisherHelperFunctions
         }
 
         // Imu message, publish if any of the fields is available
-        if (quaternion_available || accel_available || gyro_available)
+        if (quaternion_available && accel_available && gyro_available)
         {
             sensor_msgs::msg::Imu msg;
 
