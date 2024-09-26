@@ -195,6 +195,7 @@ bool XdaInterface::connectDevice()
 	// Check if scanning is enabled
 	bool scan_for_devices = false;
 	get_parameter("scan_for_devices", scan_for_devices);
+	get_parameter("device_id", deviceId);
 
 	if (!scan_for_devices){
 		// Read baudrate parameter
@@ -204,7 +205,6 @@ bool XdaInterface::connectDevice()
 		baudrate = XsBaud::numericToRate(baudrateParam);
 
 		// Read device ID parameter if set
-		get_parameter("device_id", deviceId);
 		if (deviceId != "")
 		{
 			checkDeviceID = true;
@@ -226,12 +226,13 @@ bool XdaInterface::connectDevice()
 	{
 		RCLCPP_INFO(get_logger(), "Scanning for devices...");
 		XsPortInfoArray portInfoArray = XsScanner::scanPorts(baudrate);
+		checkDeviceID = deviceId != "";
 
-		for (auto const &portInfo : portInfoArray)
+		if (checkDeviceID)
 		{
-			if (portInfo.deviceId().isMti() || portInfo.deviceId().isMtig())
+			for (auto const &portInfo : portInfoArray)
 			{
-				if (checkDeviceID)
+				if (portInfo.deviceId().isMti() || portInfo.deviceId().isMtig())
 				{
 					if (portInfo.deviceId().toString().c_str() == deviceId)
 					{
@@ -239,7 +240,13 @@ bool XdaInterface::connectDevice()
 						break;
 					}
 				}
-				else
+			}
+		}
+		else
+		{
+			for (auto const &portInfo : portInfoArray)
+			{
+				if (portInfo.deviceId().isMti() || portInfo.deviceId().isMtig())
 				{
 					mtPort = portInfo;
 					break;
