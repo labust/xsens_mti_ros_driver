@@ -4,26 +4,26 @@ Documentation:
     You can find the full documentation in "<your MT SDK directory>/doc/xsensdeviceapi/doc/html/index.html" under "ROS MTi driver" section. The SDK can be downloaded from https://www.xsens.com/software-downloads. Please note, this is a 3rd Party driver built from MTSDK2021.2 with no official support. Check the compatibility section for the compatible devices. For official support on Xsens MTi products, please refer to Xsens knowledge base: https://base.xsens.com
 
 Prerequisites:
-    - ROS 2.0 Galactic/Foxy
-    - C/C++ Compiler: GCC 5.4.0 or MSVC 14.0
-    - C++14
+    - ROS 2 Lyrical
+    - C/C++ compiler supported by ROS 2 Lyrical
+    - C++20
 
 Building:
-    - Copy bluespace_ai_xsens_mti_driver folder into your ROS 2.0 workspace 'src' folder.
-        Make sure the permissions are set to o+rw on your files and directories.
+    - Place xsens_mti_ros_driver in the workspace src directory.
 
     - Build Xsens MTi driver package:
-        $ colcon build
+        $ source /opt/ros/lyrical/setup.bash
+        $ colcon build --packages-select xsens_mti_driver
 
     - Source workspace:
         $ source install/setup.bash
 
-Note: Building of 'xspublic' from the ament workspace has been automated in the CMake script. To build it manually, run the following from the ROS2.0 workspace root:
-        $ pushd src/bluespace_ai_xsens_ros_mti_driver/lib/xspublic && make && popd
+Note: Building of 'xspublic' from the ament workspace has been automated in the CMake script. To build it manually, run the following from the ROS 2 workspace root:
+        $ pushd src/xsens_mti_ros_driver/lib/xspublic && make && popd
 
 Changes in this release compared to the Xsens ROS 1.0 driver open source:
-    - Added ROS 2.0 support: The ROS 1.0 wrapper node was modified to work with ROS 2.0.
-    - Migration to declared configuration parameters: ROS 1.0 driver supported undeclared parameters. Since ROS 2.0 guidelines discourage undeclared parameters, there are some minor modifications in the xsens_mti_node.yaml to support all the configuration capabilities from ROS1.0. For more details check the config file.
+    - Added ROS 2 support: The ROS 1 wrapper node was modified to work with ROS 2.
+    - Migration to declared configuration parameters: ROS 1.0 driver supported undeclared parameters. Since ROS 2 guidelines discourage undeclared parameters, there are some minor modifications in the xsens_mti_node.yaml to support all the configuration capabilities from ROS 1. For more details check the config file.
         - A boolean parameter scan_for_devices was added to enable switching between port scanning and connecting to a specific port for Xsens devices.
         - A boolean parameter enable_logging was added for logging. When enabled, the name of the file needs to be specified in the log_file parameter.
     - Magnetometer topic switched to sensor_msgs/MagneticField : The message type of the magnetometer measurement topic (/imu/mag) was switched to sensor_msgs/MagneticField from previous geometry_msgs/Vector3Stamped. This was a TODO item left in the original source.
@@ -32,7 +32,7 @@ Running:
     - Configure your MTi device to output desired data (e.g. for display example - orientation output)
 
     - Launch the Xsens MTi driver from your ament workspace:
-            $ ros2 launch bluespace_ai_xsens_mti_driver xsens_mti_node.launch.py
+            $ ros2 launch xsens_mti_driver xsens_mti_node.launch.py
 
         After the device has been detected, you can communicate with it from another process / terminal window.
         For example:
@@ -40,10 +40,9 @@ Running:
         This will result in a continuous stream of data output:
             ---
             header: 
-              seq: 1386351
               stamp: 
-                secs: 1545223809
-                nsecs: 197252179
+                sec: 1545223809
+                nanosec: 197252179
               frame_id: "imu_link"
             quaternion: 
               x: 0.00276306713931
@@ -53,7 +52,7 @@ Running:
             ---
 
     - There is also an example that shows a 3D visualization of the device (orientation data should be enabled in the device):
-            $ ros2 launch bluespace_ai_xsens_mti_driver display.launch.py
+            $ ros2 launch xsens_mti_driver display.launch.py
 
 Compatibility:
     - The driver is compatible with following Xsens IMU product lines:

@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.15)
 project(xsens_mti_driver)
 
 cmake_policy(SET CMP0057 NEW)
 
-# Default to C++14
+# ROS 2 Lyrical exports C++20 compile features.
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 # Find dependencies
@@ -40,13 +40,13 @@ target_include_directories(xsens_mti_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/xspublic>
   $<INSTALL_INTERFACE:include>)
 
-ament_target_dependencies(xsens_mti_node
-  rclcpp
-  tf2
-  tf2_ros
-  std_msgs
-  geometry_msgs
-  sensor_msgs
+target_link_libraries(xsens_mti_node
+  rclcpp::rclcpp
+  tf2::tf2
+  tf2_ros::tf2_ros
+  std_msgs::std_msgs
+  geometry_msgs::geometry_msgs
+  sensor_msgs::sensor_msgs
 )
 
 target_link_libraries(

@@ -3,7 +3,7 @@ import launch
 from launch.actions import DeclareLaunchArgument, RegisterEventHandler
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-import numpy as np
+from math import pi
 import os
 
 
@@ -11,8 +11,6 @@ package_prefix = get_package_share_directory("xsens_mti_driver")
 path_to_imu_params = os.path.join(package_prefix, 'config', 'three_imu_xsens_params.yaml')
 
 
-
-pi = np.pi
 
 def generate_launch_description():
     return LaunchDescription([
